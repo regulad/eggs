@@ -1,0 +1,56 @@
+{
+    "_comment": "DO NOT EDIT: FILE GENERATED AUTOMATICALLY BY PTERODACTYL PANEL - PTERODACTYL.IO",
+    "meta": {
+        "version": "PTDL_v2",
+        "update_url": null
+    },
+    "exported_at": "2023-03-26T12:23:15-04:00",
+    "name": "Websockify",
+    "author": "regulad@outlook.com",
+    "description": "Rapidly deploy a testing instance of https:\/\/github.com\/novnc\/websockify through pterodactyl.",
+    "features": null,
+    "docker_images": {
+        "Python 3.7": "ghcr.io\/parkervcp\/yolks:python_3.7",
+        "Python 3.8": "ghcr.io\/parkervcp\/yolks:python_3.8",
+        "Python 3.9": "ghcr.io\/parkervcp\/yolks:python_3.9",
+        "Python 3.10": "ghcr.io\/parkervcp\/yolks:python_3.10",
+        "Python 3.11": "ghcr.io\/parkervcp\/yolks:python_3.11"
+    },
+    "file_denylist": [],
+    "startup": ".\/websockify-{{WEBSOCKIFY_VERSION}}\/run {{SERVER_PORT}} {{WEBSOCKIFY_TARGET}}",
+    "config": {
+        "files": "{}",
+        "startup": "{\r\n    \"done\": \"Listen on\"\r\n}",
+        "logs": "{}",
+        "stop": "^C"
+    },
+    "scripts": {
+        "installation": {
+            "script": "#!\/bin\/ash\r\n# Websockigy installation script\r\n#\r\n# Server Files: \/mnt\/server\r\nPROJECT=websockify\r\ncd \/mnt\/server\r\ncurl -SL https:\/\/github.com\/novnc\/websockify\/archive\/refs\/tags\/v$WEBSOCKIFY_VERSION.tar.gz \\\r\n| tar xzC .",
+            "container": "ghcr.io\/pterodactyl\/installers:alpine",
+            "entrypoint": "ash"
+        }
+    },
+    "variables": [
+        {
+            "name": "Websockify Version",
+            "description": "The version of websockify to use. See https:\/\/github.com\/novnc\/websockify\/releases for a list.",
+            "env_variable": "WEBSOCKIFY_VERSION",
+            "default_value": "0.11.0",
+            "user_viewable": false,
+            "user_editable": false,
+            "rules": "required|string|max:20",
+            "field_type": "text"
+        },
+        {
+            "name": "Target Host",
+            "description": "The host listens on a given TCP port that will receive requests through WS.",
+            "env_variable": "WEBSOCKIFY_TARGET",
+            "default_value": "localhost:5901",
+            "user_viewable": true,
+            "user_editable": true,
+            "rules": "required|string",
+            "field_type": "text"
+        }
+    ]
+}
